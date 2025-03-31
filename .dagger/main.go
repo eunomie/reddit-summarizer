@@ -43,7 +43,7 @@ Task: $assignment
 
 You have access to reddit with a tool called "posts" that can be used to get the posts to summarize.
 
-Write a few sentences about the subreddit and highlight the most interesting posts.
+Write a few sentences about the subreddit and highlight the most interesting posts you received.
 
 Format the response in markdown
 `).

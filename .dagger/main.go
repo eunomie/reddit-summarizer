@@ -28,22 +28,35 @@ func (r *RedditSummarizer) Summarize(
 	// Name of the subreddit to summarize
 	subreddit string,
 ) (string, error) {
-	// Create a reddit fetcher. This is a module written in Java
-	redditFetcher := dag.Reddit(r.ClientId, r.ClientSecret, r.Username, r.Password)
+	// Define the environment for the LLM
+	redditEnvironment := dag.Env().
+		// Create a reddit fetcher. This is a module written in Java
+		WithRedditInput("redditFetcher", dag.Reddit(r.ClientId, r.ClientSecret, r.Username, r.Password), "Reddit fetcher to read posts from a subreddit")
+		// Specify the subrredit to fetch
+		//WithStringInput("subreddit", subreddit, "Subreddit to summarize")
 
 	return dag.
 		// Use LLM
 		LLM().
 		// Make the reddit fetcher available for the LLM
-		WithReddit(redditFetcher).
+		WithEnv(redditEnvironment).
 		// Ask to generate the summary
-		WithPromptVar("assignment", "Create a summary of the subreddit '"+subreddit+"'").
-		WithPrompt(`
-Task: $assignment
+		WithPrompt(`**Role**: Reddit Summarizer
 
-You have access to reddit with a tool called "posts" that can be used to get the posts to summarize.
+**Task**: Create a markdown summary of the subreddit 'docker'
 
-Write a few sentences about the subreddit and highlight the most interesting posts you received.
+**Environment**:
+
+You have access to a reddit fetcher.
+Use the available 'posts' tool to get the posts from the subreddit.
+
+**Execution Rule**:
+- **Always run the posts tool**.
+
+**Instructions**:
+
+1. Use the 'posts' tool to get the posts from the subreddit.
+2. Summarize the subreddit posts in a markdown format.
 
 Format the response in markdown
 `).

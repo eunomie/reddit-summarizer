@@ -40,6 +40,11 @@ public class Reddit {
     this.password = password;
   }
 
+  /**
+   * Get the recent posts from a subreddit
+   *
+   * @param subreddit the subreddit to get posts from
+   */
   @Function
   public List<String> posts(String subreddit) throws Exception {
     return getPosts(subreddit).stream().map(p -> """

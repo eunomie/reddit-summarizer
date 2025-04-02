@@ -1,17 +1,17 @@
 {
   "name": "reddit-summarizer",
-  "engineVersion": "v0.17.2-010101000000-dev-704d939a0c01",
+  "engineVersion": "v0.18.1",
   "sdk": {
     "source": "go"
   },
   "dependencies": [
     {
-      "name": "reddit",
-      "source": "reddit"
-    },
-    {
       "name": "glow",
       "source": "glow"
+    },
+    {
+      "name": "reddit",
+      "source": "reddit"
     }
   ],
   "source": ".dagger"
